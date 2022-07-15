@@ -173,11 +173,11 @@ class TodoApiFilterBackendsTestCase(APITestCase):
 
     def test_filter(self):
         test_cases = [{'filter_data': {'done': True},
-                       'expected_data': [self.todo1, self.todo3]},
+                       'expected_data': [self.todo3, self.todo1]},
                       {'filter_data': {'done': False},
-                       'expected_data': [self.todo2, self.todo4]},
+                       'expected_data': [self.todo4, self.todo2]},
                       {'filter_data': {'date_created__gte': datetime.datetime(2022, 1, 2, 22, 0, 0, tzinfo=pytz.utc)},
-                                       'expected_data': [self.todo3, self.todo4]},
+                                       'expected_data': [self.todo4, self.todo3]},
                       {'filter_data': {'date_created__gte': datetime.datetime(2022, 1, 2, 22, 0, 0, tzinfo=pytz.utc),
                                        'date_created__lte': datetime.datetime(2022, 1, 5, 00, 0, 0, tzinfo=pytz.utc)},
                        'expected_data': [self.todo3]}]
@@ -185,7 +185,7 @@ class TodoApiFilterBackendsTestCase(APITestCase):
         url = reverse('todo_list')
         self.client.force_login(self.user)
 
-        for test_case in test_cases:
+        for count, test_case in enumerate(test_cases):
             responce = self.client.get(url, data=test_case['filter_data'])
             expected_data = TodoSerializer(test_case['expected_data'], many=True).data
-            self.assertEqual(expected_data, responce.data)
+            self.assertEqual(expected_data, responce.data, msg=count)
