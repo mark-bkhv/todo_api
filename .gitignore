@@ -61,5 +61,9 @@ target/
 #IDE
 .idea
 
+# Enviroment variables prod
+.env.prod
+.env.prod.db
+
 #System
 .DS_Store
