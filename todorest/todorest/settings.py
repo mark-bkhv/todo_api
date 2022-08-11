@@ -24,6 +24,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG')
+DEBUG_TOOLBAR = os.environ.get('DEBUG_TOOLBAR')
 
 ALLOWED_HOSTS = []
 
@@ -164,8 +165,8 @@ SWAGGER_SETTINGS = {
     }
 }
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+INTERNAL_IPS = ['127.0.0.1']
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]

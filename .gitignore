@@ -62,6 +62,7 @@ target/
 .idea
 
 # Enviroment variables prod
+.env.dev
 .env.prod
 .env.prod.db
 

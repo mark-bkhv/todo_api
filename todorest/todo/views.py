@@ -32,4 +32,4 @@ class TodoRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Todo.objects.select_related('owner') \
         .only('name', 'date_created', 'done', 'owner__id', 'owner__username') \
         .all()
-    permission_classes = (UserIsOwnerTodo,)
+    permission_classes = (UserIsOwnerTodo,IsAuthenticated)

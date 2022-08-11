@@ -27,5 +27,5 @@ urlpatterns = [
 
 urlpatterns += doc_urls
 
-if settings.DEBUG:
+if settings.DEBUG and settings.DEBUG_TOOLBAR:
     urlpatterns += [path('__debug__/', include('debug_toolbar.urls')), ]
