@@ -19,7 +19,9 @@ class TodoListCreate(ListCreateAPIView):
     ordering_fields = ['name', 'date_created']
 
     def get_queryset(self):
-        return Todo.objects.filter(owner=self.request.user)
+        return Todo.objects.select_related('owner') \
+            .only('name', 'date_created', 'done', 'owner__id', 'owner__username') \
+            .filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -27,5 +29,7 @@ class TodoListCreate(ListCreateAPIView):
 
 class TodoRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
+    queryset = Todo.objects.select_related('owner') \
+        .only('name', 'date_created', 'done', 'owner__id', 'owner__username') \
+        .all()
     permission_classes = (UserIsOwnerTodo,)
